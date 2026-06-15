@@ -21,7 +21,7 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 
 **Epic 1 — Citation linking.** Every AI-generated claim and quote — in both the chat answer and the generated document — carries an inline citation that binds it to a specific content unit (paragraph) in a source document. Two A/B trigger variants are toggleable live for design feedback: Variant A highlights the claim text with a superscript marker; Variant B appends an inline source chip. Clicking a citation opens a mini-component showing the cited content unit (highlighted, with locator), an internal-vs-external indicator, and a primary action — "Open full document" for internal sources (which scrolls to and flashes the cited unit in context) or "Open source ↗" for external legislation. The same citation component is reused in the chat thread and the document, so grounding is consistent everywhere a claim appears.
 
-**Epic 2 — Versioning.** The generated document in the right panel carries its own v1/v2/v3 history, mirroring how it was built in the chat (create → extend with summary + takeaways → add breakdown). A version-indicator badge in the document header opens a history popover that lets the user preview any version and restore it as current, with a restore banner shown while a non-current version is in view.
+**Epic 2 — Versioning.** The generated document in the right panel carries its own v1/v2/v3 history, mirroring how it was built in the chat (create → extend with summary + takeaways → add breakdown). A version-indicator badge in the document header opens a history popover that lets the user preview any version and restore it as current, with a restore banner shown while a non-current version is in view. **Draft / Publish:** a document stays in **Draft** state and is only treated as final when the user manually clicks a **Publish** button in the document header, which marks it **Published**. Publishing is always an explicit human action — nothing is published automatically. Restoring an earlier version changes the document's content and therefore returns it to Draft until it is published again, keeping the published state honest about what was actually approved.
 
 **Epic 3 — Full-screen document view.** An expand action in the document header opens the generated document at full screen width with a comfortable reading column, while keeping citations, the A/B toggle, the version indicator, and the restore banner fully functional. Collapse, close, or Esc returns to the side panel.
 
@@ -39,8 +39,7 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 
 - As a user, I want to see how the AI document evolved across versions, so that I can understand what changed and when.
 - As a user, I want to restore an earlier version of the generated document, so that I can roll back an unwanted change.
-
-
+- As a user, I want a document to stay in draft until I explicitly click Publish, so that nothing is treated as final or audit-ready until I approve it.
 
 *Other — Full-screen view*
 
@@ -62,10 +61,7 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 
 ## Implementation Decisions
 
-- Build frontend-only with scripted mock data; no backend and no live LLM, so the demo is fast and cannot fail on stage.
-- Ship two A/B citation variants behind a live toggle rather than picking one, to gather designer feedback in the room.
-- Bind the claim and its source visually in Variant A (highlight + superscript) and keep claim text clean in Variant B (inline chip).
-- Derive all design tokens (indigo-violet accent, Inter, light mode) from the product screenshots rather than inventing an aesthetic.
+- Link to content unit and not to document (feasibility question answered)
 - Version the generated document in the panel (single level); do not surface source-document version history inside citations, to avoid conflating two version concepts.
 - Share version state between the side panel and the full-screen view so they stay in sync.
 - Make "restore" set the chosen version as current in-session (no persistence), as a believable prototype interaction.
@@ -73,23 +69,15 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 
 ## Success Metrics
 
-- ML and engineering leads give an explicit feasibility read on the citation/content-unit and versioning mechanisms during the session.
-- The designer names a preferred citation variant (A or B) after seeing both.
-- The team agrees citation + versioning are the right direction for audit-ready trust (qualitative go/no-go).
-- At least 3 pieces of concrete, actionable feedback are captured to scope the next iteration.
+- TBA
 
 ## Out of Scope
 
-- Backend, database, authentication, and persistence.
-- Real document ingestion, parsing, or content-unit extraction.
-- Live LLM calls — the conversation and citations are scripted.
-- The dedicated content-unit deep view (stubbed for a later pass).
-- Source-document version history inside citations — a citation points at the source content directly, without a version switcher.
-- An audit-logged "restored from vX" version entry on restore.
-- Production error handling, performance, and accessibility hardening.
+- Referencing to requirements
 
-## Further Notes
+## Open questions
 
-- [ ] Need a reference screenshot of the dedicated content-unit view before building it.
-- [ ] Decide the preferred citation trigger — Variant A (highlight) or Variant B (chip).
-- [ ] Decide whether restore should create an explicit audit-logged version entry rather than silently swapping current.
+- Which other use cases do we have?
+
+
+

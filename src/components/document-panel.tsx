@@ -30,6 +30,8 @@ import { VariantToggle } from "./variant-toggle";
 import {
   VersionMenu,
   RestoreBanner,
+  DocStatusBadge,
+  PublishButton,
   type VersionState,
 } from "./doc-version-control";
 
@@ -93,6 +95,7 @@ function useDocVersions(): {
     versions.find((v) => v.isCurrent)?.id ?? versions[versions.length - 1].id;
   const [currentId, setCurrentId] = useState(initial);
   const [viewingId, setViewingId] = useState(initial);
+  const [published, setPublished] = useState(false);
 
   const blocks =
     versions.find((v) => v.id === viewingId)?.blocks ?? versions[0].blocks;
@@ -105,7 +108,12 @@ function useDocVersions(): {
     restore: (id) => {
       setCurrentId(id);
       setViewingId(id);
+      // Restoring changes the document's content, so it returns to draft
+      // until the user publishes again.
+      setPublished(false);
     },
+    published,
+    publish: () => setPublished(true),
   };
   return { state, blocks };
 }
@@ -124,17 +132,21 @@ export function DocumentPanel() {
               {GENERATED_DOC.title.slice(0, 22)}…
             </span>
             <VersionMenu state={state} />
+            <DocStatusBadge state={state} />
           </div>
-          <div className="flex items-center gap-0.5">
-            <IconButton icon={Copy} label="Copy" />
-            <IconButton icon={Download} label="Download" />
-            <IconButton icon={Pencil} label="Edit" />
-            <IconButton
-              icon={Maximize2}
-              label="Expand to full width"
-              onClick={() => setExpanded(true)}
-            />
-            <IconButton icon={X} label="Close" />
+          <div className="flex items-center gap-1.5">
+            <PublishButton state={state} />
+            <div className="flex items-center gap-0.5">
+              <IconButton icon={Copy} label="Copy" />
+              <IconButton icon={Download} label="Download" />
+              <IconButton icon={Pencil} label="Edit" />
+              <IconButton
+                icon={Maximize2}
+                label="Expand to full width"
+                onClick={() => setExpanded(true)}
+              />
+              <IconButton icon={X} label="Close" />
+            </div>
           </div>
         </div>
 
@@ -191,17 +203,21 @@ function ExpandedDocument({
             {GENERATED_DOC.title}
           </span>
           <VersionMenu state={state} />
+          <DocStatusBadge state={state} />
         </div>
-        <div className="flex items-center gap-0.5">
-          <IconButton icon={Copy} label="Copy" />
-          <IconButton icon={Download} label="Download" />
-          <IconButton icon={Pencil} label="Edit" />
-          <IconButton
-            icon={Minimize2}
-            label="Collapse to side panel"
-            onClick={onCollapse}
-          />
-          <IconButton icon={X} label="Close" onClick={onCollapse} />
+        <div className="flex items-center gap-1.5">
+          <PublishButton state={state} />
+          <div className="flex items-center gap-0.5">
+            <IconButton icon={Copy} label="Copy" />
+            <IconButton icon={Download} label="Download" />
+            <IconButton icon={Pencil} label="Edit" />
+            <IconButton
+              icon={Minimize2}
+              label="Collapse to side panel"
+              onClick={onCollapse}
+            />
+            <IconButton icon={X} label="Close" onClick={onCollapse} />
+          </div>
         </div>
       </div>
 

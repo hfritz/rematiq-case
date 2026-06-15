@@ -1,6 +1,15 @@
 "use client";
 
-import { History, Check, RotateCcw, ChevronDown, Dot } from "lucide-react";
+import {
+  History,
+  Check,
+  RotateCcw,
+  ChevronDown,
+  Dot,
+  CircleDot,
+  CheckCircle2,
+  Send,
+} from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -15,7 +24,43 @@ export type VersionState = {
   currentId: string;
   view: (id: string) => void;
   restore: (id: string) => void;
+  /** Draft until the user publishes. */
+  published: boolean;
+  publish: () => void;
 };
+
+/** Draft / Published indicator shown in the document header. */
+export function DocStatusBadge({ state }: { state: VersionState }) {
+  return state.published ? (
+    <span className="flex items-center gap-1 rounded-md border border-success/30 bg-success-bg px-1.5 py-0.5 text-[11px] font-semibold text-success">
+      <CheckCircle2 className="h-3 w-3" strokeWidth={2.25} />
+      Published
+    </span>
+  ) : (
+    <span className="flex items-center gap-1 rounded-md border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-[11px] font-semibold text-amber-700">
+      <CircleDot className="h-3 w-3" strokeWidth={2.25} />
+      Draft
+    </span>
+  );
+}
+
+/**
+ * Publish action. Only shown when the document is a draft and the current
+ * version is in view (restoring shows the restore banner instead).
+ */
+export function PublishButton({ state }: { state: VersionState }) {
+  const onCurrent = state.viewingId === state.currentId;
+  if (state.published || !onCurrent) return null;
+  return (
+    <button
+      onClick={state.publish}
+      className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover"
+    >
+      <Send className="h-3.5 w-3.5" strokeWidth={2} />
+      Publish
+    </button>
+  );
+}
 
 /** The version indicator + history menu shown in the document header. */
 export function VersionMenu({ state }: { state: VersionState }) {
