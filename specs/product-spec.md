@@ -10,7 +10,7 @@ Name: Helmut Fritz
 
 ## Summary
 
-In regulated MedTech, AI-generated answers and documents cannot be trusted or used for audit without direct traceability to their sources. Today there is no mechanism to go from "the AI said X" to "here is exactly where X came from, in version Y of document Z" — verification means manually hunting through regulatory or internal documents. This project prototypes a **clickable citation mini-component**: every claim or quote in an AI-generated document carries an inline citation that highlights the exact content unit (paragraph) in its source, exposes version-aware history for the cited artifact, and provides a path from an isolated claim to its full document context, including internal documents and external legislation. The outcome is audit-ready trust and traceability made tangible in the UI.
+In regulated MedTech, AI-generated answers and documents cannot be trusted or used for audit without direct traceability to their sources. Today there is no mechanism to go from "the AI said X" to "here is exactly where X came from, in version Y of document Z" — verification means manually hunting through regulatory or internal documents. This project prototypes a **clickable citation mini-component**: every claim or quote in an AI-generated document carries an inline citation that highlights the exact content unit (paragraph) in its source and provides a path from an isolated claim to its full document context, including internal documents and external legislation. The generated document itself is versioned (v1/v2/v3) with restore. The outcome is audit-ready trust and traceability made tangible in the UI.
 
 ## Context
 
@@ -29,12 +29,12 @@ End users of the eventual feature are **regulatory, quality, and compliance prof
 
 ## Problem
 
-AI-generated answers in a regulated MedTech context are untrustworthy without traceability. There is no way to verify a claim without manually searching source documents, and no way to know which **version** of a document a claim was drawn from. This blocks audit-readiness: a claim that cannot be traced to a specific, versioned content unit cannot be relied upon for regulatory work.
+AI-generated answers in a regulated MedTech context are untrustworthy without traceability. There is no way to verify a claim without manually searching source documents. This blocks audit-readiness: a claim that cannot be traced to a specific content unit cannot be relied upon for regulatory work.
 
 ## Goals
 
 - Make paragraph-level verifiability tangible: clicking a citation highlights the exact content unit in the source document.
-- Make citations version-aware: show the version history of the cited artifact so users know which version a claim came from.
+- Version the generated document itself: let users see how the AI document evolved (v1/v2/v3) and restore an earlier version.
 - Provide a seamless transition from an isolated claim to fuller context — mini-preview and full-document view.
 - Support both internal sources (uploaded documents broken into content units) and external sources (link-out to legislation websites).
 - Make the prototype look and feel like Rematiq's existing product so the team engages with it directly.
@@ -50,11 +50,11 @@ AI-generated answers in a regulated MedTech context are untrustworthy without tr
 
 ## Jobs To Be Done
 
-When I am reviewing an AI-generated claim in a regulated MedTech document, I want to instantly see the exact source paragraph it came from and which version it belongs to, so I can trust and audit the claim without manually searching the source documents.
+When I am reviewing an AI-generated claim in a regulated MedTech document, I want to instantly see the exact source paragraph it came from, so I can trust and audit the claim without manually searching the source documents.
 
 ## User Experience
 
-The prototype reproduces Rematiq's three-panel research interface: an icon rail, a chat list, the chat thread, and a document editor panel. The hero interaction lives in the generated document: sourced claims and quotes carry inline citations. Activating a citation opens the mini-component, which highlights the cited content unit in its source, shows version history, distinguishes internal vs external sources, and offers expansion to a mini-preview or full-document view. A secondary Documentation list view (matching the real product) provides surrounding context.
+The prototype reproduces Rematiq's three-panel research interface: an icon rail, a chat list, the chat thread, and a document editor panel. The hero interaction lives in the generated document: sourced claims and quotes carry inline citations. Activating a citation opens the mini-component, which highlights the cited content unit in its source, distinguishes internal vs external sources, and offers expansion to a mini-preview or full-document view. A secondary Documentation list view (matching the real product) provides surrounding context.
 
 ### Citation trigger — A/B variants
 
@@ -70,7 +70,7 @@ To gather design feedback, the prototype ships **two visual treatments** of the 
 1. User views the generated COFEPRIS summary document in the editor panel.
 2. A sourced claim/quote shows a citation (Variant A or B).
 3. User clicks the citation; the mini-component opens.
-4. The exact content unit is highlighted in its source document, with version history shown (e.g. "Guía v2 — current").
+4. The exact content unit is highlighted in its source document, in context.
 5. User expands to a mini-preview or full-document view for comprehensive context, or follows an external link to the underlying legislation.
 
 ## Requirements
@@ -99,7 +99,7 @@ Guardrail metrics: none (prototype).
 
 - Matching the real product's UI closely enough will make the team engage with the prototype as their own.
 - The scripted COFEPRIS conversation and generated document are representative enough to carry the demo and showcase citations naturally.
-- Paragraph-level content units and version history are the right granularity for the team's trust/audit needs.
+- Paragraph-level content units are the right granularity for the team's trust/audit needs.
 - A frontend-only prototype is sufficient to assess feasibility and UX; backend realism is not required for this conversation.
 
 ## Risks
@@ -122,4 +122,4 @@ Capture feasibility feedback from ML/eng leads and UX feedback from the designer
 
 - [ ] What does the dedicated content-unit view look like in the real product? (Awaiting screenshot.)
 - [ ] Which citation trigger variant does the designer prefer?
-- [ ] How should version history be surfaced — inline in the mini-component, or in the expanded view?
+- [ ] Should restore create an explicit audit-logged version entry on the generated document?

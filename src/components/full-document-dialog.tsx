@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { FileText, History, ScanText } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { FileText, ScanText } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -28,10 +28,10 @@ export function FullDocumentDialog() {
         className="max-h-[85vh] gap-0 overflow-hidden p-0 sm:max-w-2xl"
       >
         {fullDoc ? (
-          // Keying on the target remounts the body so its local state
-          // (selected version) resets each time a new citation opens it.
+          // Keying on the target remounts the body so the scroll-to-cited-unit
+          // effect re-runs each time a new citation opens it.
           <DocumentBody
-            key={`${fullDoc.sourceId}:${fullDoc.versionId}:${fullDoc.contentUnitId ?? ""}`}
+            key={`${fullDoc.sourceId}:${fullDoc.contentUnitId ?? ""}`}
             target={fullDoc}
           />
         ) : null}
@@ -42,21 +42,20 @@ export function FullDocumentDialog() {
 
 function DocumentBody({ target }: { target: FullDocTarget }) {
   const source = getSource(target.sourceId);
-  const [versionId, setVersionId] = useState(target.versionId);
   const citedRef = useRef<HTMLDivElement | null>(null);
 
-  // Scroll the cited content unit into view when the version changes.
+  // Scroll the cited content unit into view on open.
   useEffect(() => {
     const t = setTimeout(() => {
       citedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 120);
     return () => clearTimeout(t);
-  }, [versionId]);
+  }, []);
 
   if (!source) return null;
 
   const version =
-    source.versions.find((v) => v.id === versionId) ?? source.versions[0];
+    source.versions.find((v) => v.id === target.versionId) ?? source.versions[0];
 
   return (
     <>
@@ -74,45 +73,10 @@ function DocumentBody({ target }: { target: FullDocTarget }) {
             ) : null}
           </div>
         </div>
-
-        {/* Version switcher */}
-        <div className="mt-3 flex items-center gap-2">
-          <span className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-text-muted">
-            <History className="h-3.5 w-3.5" strokeWidth={1.75} />
-            Version
-          </span>
-          {source.versions.map((v) => (
-            <button
-              key={v.id}
-              onClick={() => setVersionId(v.id)}
-              className={cn(
-                "flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] transition-colors",
-                v.id === version.id
-                  ? "border-brand bg-brand-tint text-brand-text"
-                  : "border-border text-text-secondary hover:bg-surface",
-              )}
-            >
-              <span className="font-semibold">{v.label}</span>
-              {v.isCurrent ? (
-                <span className="text-[10px] text-success">· current</span>
-              ) : null}
-            </button>
-          ))}
-          <span className="ml-auto text-[11px] text-text-muted">{version.date}</span>
-        </div>
       </DialogHeader>
 
       <ScrollArea className="max-h-[60vh]">
         <div className="space-y-3 px-5 py-5">
-          {version.changeNote ? (
-            <p className="rounded-md bg-bg-subtle px-3 py-2 text-[12px] leading-relaxed text-text-secondary">
-              <span className="font-medium text-foreground">
-                {version.label} changes:{" "}
-              </span>
-              {version.changeNote}
-            </p>
-          ) : null}
-
           {version.contentUnits.map((cu) => {
             const isCited = cu.id === target.contentUnitId;
             return (

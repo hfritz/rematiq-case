@@ -89,7 +89,7 @@ Essentially none — the product is flat and clean. Do not introduce gradients, 
 
 - **Standard card / panel:** `--surface-raised` bg, 1px `--border`, radius 10px, `--shadow-sm`, 24px padding.
 - **Document list row:** full-width, bottom border `--border`, 16px vertical padding; columns Title · Version · Document type · Status · Uploaded; hover bg `--bg-subtle`.
-- **Citation mini-component (feature card):** popover anchored to the citation; `--surface-raised`, radius 10px, `--shadow-md`. Contains: source title, version badge/history, highlighted content-unit excerpt, internal/external indicator, and "Expand to full document" / mini-preview action.
+- **Citation mini-component (feature card):** popover anchored to the citation; `--surface-raised`, radius 10px, `--shadow-md`. Contains: source title, highlighted content-unit excerpt, internal/external indicator, and "Expand to full document" / mini-preview action.
 
 ## Iconography
 
