@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { Unlink } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -10,6 +11,29 @@ import { cn } from "@/lib/utils";
 import { resolveCitation } from "@/lib/mock-data";
 import { useAppState } from "./app-state";
 import { CitationCard } from "./citation-card";
+
+type Tone = "internal" | "external" | "broken";
+
+const MARKER_TONE: Record<Tone, string> = {
+  internal: "bg-brand-tint text-brand hover:bg-brand hover:text-white",
+  external: "bg-external-tint text-external hover:bg-external hover:text-white",
+  broken: "bg-red-100 text-red-600 hover:bg-red-600 hover:text-white",
+};
+
+const CHIP_TONE: Record<Tone, string> = {
+  internal: "bg-brand-tint text-brand-text hover:bg-brand hover:text-white",
+  external: "bg-external-tint text-external hover:bg-external hover:text-white",
+  broken: "bg-red-100 text-red-600 hover:bg-red-600 hover:text-white",
+};
+
+const HIGHLIGHT_TONE: Record<Tone, string> = {
+  internal:
+    "bg-brand-tint/60 text-foreground underline decoration-brand/40 hover:bg-brand-tint",
+  external:
+    "bg-external-tint/60 text-foreground underline decoration-external/40 hover:bg-external-tint",
+  broken:
+    "bg-red-50 text-red-700 underline line-through decoration-red-400 hover:bg-red-100",
+};
 
 export function CitationTrigger({
   citationId,
@@ -25,17 +49,20 @@ export function CitationTrigger({
   const resolved = resolveCitation(citationId);
   if (!resolved) return <>{children}</>;
 
-  const { citation, source } = resolved;
-  const isExternal = source.kind === "external";
+  const { citation, source, contentUnit } = resolved;
+  const isBroken = !!contentUnit?.deleted;
+  const tone: Tone = isBroken
+    ? "broken"
+    : source.kind === "external"
+      ? "external"
+      : "internal";
   const n = citation.number;
 
   const marker = (
     <sup
       className={cn(
         "ml-0.5 cursor-pointer rounded px-[3px] text-[10px] font-semibold tabular-nums transition-colors",
-        isExternal
-          ? "bg-external-tint text-external hover:bg-external hover:text-white"
-          : "bg-brand-tint text-brand hover:bg-brand hover:text-white",
+        MARKER_TONE[tone],
       )}
     >
       {n}
@@ -46,12 +73,14 @@ export function CitationTrigger({
     <span
       className={cn(
         "ml-1 inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-0.5 align-baseline text-[11px] font-medium leading-none transition-colors",
-        isExternal
-          ? "bg-external-tint text-external hover:bg-external hover:text-white"
-          : "bg-brand-tint text-brand-text hover:bg-brand hover:text-white",
+        CHIP_TONE[tone],
       )}
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
+      {isBroken ? (
+        <Unlink className="h-2.5 w-2.5" strokeWidth={2.25} />
+      ) : (
+        <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
+      )}
       {source.title.split(" ").slice(0, 2).join(" ")}… [{n}]
     </span>
   );
@@ -65,9 +94,7 @@ export function CitationTrigger({
       <span
         className={cn(
           "cursor-pointer rounded-sm decoration-2 underline-offset-2 transition-colors",
-          isExternal
-            ? "bg-external-tint/60 text-foreground underline decoration-external/40 hover:bg-external-tint"
-            : "bg-brand-tint/60 text-foreground underline decoration-brand/40 hover:bg-brand-tint",
+          HIGHLIGHT_TONE[tone],
         )}
       >
         {children}
@@ -77,7 +104,7 @@ export function CitationTrigger({
   } else {
     // Variant B — plain claim text followed by an inline source chip.
     triggerInner = (
-      <span className="text-foreground">
+      <span className={isBroken ? "text-red-700" : "text-foreground"}>
         {children}
         {chip}
       </span>

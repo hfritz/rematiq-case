@@ -44,6 +44,14 @@ export const SOURCE_DOCS: SourceDocument[] = [
             locator: "§2.4",
             text: "La solicitud se realiza por cada registro sanitario y debe cubrir todas las presentaciones y concentraciones amparadas por dicho registro, acompañada de los anexos correspondientes.",
           },
+          {
+            id: "lin-cu-deleted",
+            locator: "§2.3",
+            text: "El escrito libre deberá presentarse dentro de los plazos establecidos para la prórroga del registro sanitario correspondiente.",
+            deleted: true,
+            deletedNote:
+              "Removed when the Lineamientos were re-uploaded on 14 Jun 2026; this paragraph no longer exists in the current source.",
+          },
         ],
       },
     ],
@@ -187,6 +195,15 @@ export const CITATIONS: Record<string, Citation> = {
     versionId: "guia-v2",
     contentUnitId: "guia-v2-cu-3",
   },
+  // Points at a content unit that was later deleted from its source — renders
+  // as a broken (red) citation.
+  c9: {
+    id: "c9",
+    number: 9,
+    sourceId: "lineamientos",
+    versionId: "lineamientos-v1",
+    contentUnitId: "lin-cu-deleted",
+  },
 };
 
 export const CITATION_LIST = Object.values(CITATIONS);
@@ -295,7 +312,13 @@ const DOC_BREAKDOWN_SECTIONS: Block[] = [
     {
       type: "p",
       content: [
-        { type: "text", text: "Serves as the foundational procedural framework. It explains the legal basis for the IFV request and sets out the basic structure and timing expectations. Key quote:" },
+        { type: "text", text: "Serves as the foundational procedural framework. It explains the legal basis for the IFV request and sets out the basic structure and " },
+        {
+          type: "claim",
+          text: "timing expectations for submitting the request",
+          citationId: "c9",
+        },
+        { type: "text", text: ". Key quote:" },
       ],
     },
     {

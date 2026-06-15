@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { FileText, ScanText } from "lucide-react";
+import { FileText, ScanText, Unlink } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -79,46 +79,79 @@ function DocumentBody({ target }: { target: FullDocTarget }) {
         <div className="space-y-3 px-5 py-5">
           {version.contentUnits.map((cu) => {
             const isCited = cu.id === target.contentUnitId;
+            const isDeleted = !!cu.deleted;
             return (
               <div
                 key={cu.id}
                 ref={isCited ? citedRef : undefined}
                 className={cn(
                   "group rounded-md py-2 pl-3 pr-2 transition-colors",
-                  isCited
-                    ? "cu-flash bg-brand-tint/40 ring-1 ring-brand/30"
-                    : "hover:bg-bg-subtle",
+                  isDeleted
+                    ? "border-l-2 border-red-400 bg-red-50"
+                    : isCited
+                      ? "cu-flash bg-brand-tint/40 ring-1 ring-brand/30"
+                      : "hover:bg-bg-subtle",
                 )}
               >
                 <div className="mb-1 flex items-center gap-2">
-                  <span className="rounded bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-secondary">
+                  <span
+                    className={cn(
+                      "rounded px-1.5 py-0.5 font-mono text-[10px]",
+                      isDeleted
+                        ? "bg-red-100 text-red-600 line-through"
+                        : "bg-surface text-text-secondary",
+                    )}
+                  >
                     {cu.locator}
                   </span>
+                  {isDeleted ? (
+                    <span className="flex items-center gap-1 rounded bg-red-100 px-1.5 py-0.5 text-[10px] font-semibold text-red-600">
+                      <Unlink className="h-2.5 w-2.5" strokeWidth={2.25} />
+                      Deleted
+                    </span>
+                  ) : null}
                   {isCited ? (
-                    <span className="rounded bg-brand px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                    <span
+                      className={cn(
+                        "rounded px-1.5 py-0.5 text-[10px] font-semibold text-white",
+                        isDeleted ? "bg-red-500" : "bg-brand",
+                      )}
+                    >
                       Cited here
                     </span>
                   ) : null}
-                  <Tooltip>
-                    <TooltipTrigger
-                      disabled
-                      className="ml-auto cursor-not-allowed text-text-muted opacity-0 transition-opacity group-hover:opacity-100"
-                    >
-                      <ScanText className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      Content-unit view — coming next
-                    </TooltipContent>
-                  </Tooltip>
+                  {!isDeleted ? (
+                    <Tooltip>
+                      <TooltipTrigger
+                        disabled
+                        className="ml-auto cursor-not-allowed text-text-muted opacity-0 transition-opacity group-hover:opacity-100"
+                      >
+                        <ScanText className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Content-unit view — coming next
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : null}
                 </div>
                 <p
                   className={cn(
-                    "text-[14px] leading-relaxed text-foreground",
-                    cu.isQuote && "italic text-text-secondary",
+                    "text-[14px] leading-relaxed",
+                    isDeleted
+                      ? "text-red-700 line-through"
+                      : cu.isQuote
+                        ? "italic text-text-secondary"
+                        : "text-foreground",
                   )}
                 >
                   {cu.text}
                 </p>
+                {isDeleted && cu.deletedNote ? (
+                  <p className="mt-1.5 flex items-start gap-1.5 text-[11px] leading-snug text-red-600">
+                    <Unlink className="mt-0.5 h-3 w-3 shrink-0" strokeWidth={2} />
+                    <span>{cu.deletedNote}</span>
+                  </p>
+                ) : null}
               </div>
             );
           })}

@@ -23,6 +23,10 @@ export type ContentUnit = {
   locator: string;
   text: string;
   isQuote?: boolean;
+  /** Tombstone: the paragraph was removed from the source after being cited. */
+  deleted?: boolean;
+  /** When/why it was removed — shown when a citation points at it. */
+  deletedNote?: string;
 };
 
 /** One version of a source document. */
