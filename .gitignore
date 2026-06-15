@@ -14,3 +14,11 @@ docs/helmut-context.md
 docs/project-memory.md
 docs/global-instructions.md
 
+
+# next.js / vercel
+/out/
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+.pnp
+.pnp.*
