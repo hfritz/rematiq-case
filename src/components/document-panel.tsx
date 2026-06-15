@@ -21,14 +21,8 @@ import {
   ListOrdered,
   Quote,
   Minus,
-  MoreHorizontal,
   type LucideIcon,
 } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { GENERATED_DOC } from "@/lib/mock-data";
 import type { Block } from "@/lib/types";
 import { RichContent } from "./rich-content";
@@ -65,41 +59,6 @@ function IconButton({
     >
       <Icon className="h-[17px] w-[17px]" strokeWidth={1.75} />
     </button>
-  );
-}
-
-const MORE_ACTIONS: { icon: LucideIcon; label: string }[] = [
-  { icon: Copy, label: "Copy" },
-  { icon: Download, label: "Download" },
-  { icon: Pencil, label: "Edit" },
-];
-
-/** Overflow menu for secondary document actions. */
-function MoreMenu() {
-  return (
-    <Popover>
-      <PopoverTrigger
-        aria-label="More actions"
-        className="flex h-7 w-7 items-center justify-center rounded-md text-text-muted hover:bg-surface hover:text-foreground"
-      >
-        <MoreHorizontal className="h-[17px] w-[17px]" strokeWidth={1.75} />
-      </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        sideOffset={6}
-        className="w-44 rounded-[10px] border-border p-1 shadow-[0_4px_12px_rgba(30,34,48,0.10)]"
-      >
-        {MORE_ACTIONS.map(({ icon: Icon, label }) => (
-          <button
-            key={label}
-            className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] text-text-secondary transition-colors hover:bg-surface hover:text-foreground"
-          >
-            <Icon className="h-4 w-4" strokeWidth={1.75} />
-            {label}
-          </button>
-        ))}
-      </PopoverContent>
-    </Popover>
   );
 }
 
@@ -178,7 +137,9 @@ export function DocumentPanel() {
           <div className="flex items-center gap-1.5">
             <PublishButton state={state} />
             <div className="flex items-center gap-0.5">
-              <MoreMenu />
+              <IconButton icon={Copy} label="Copy" />
+              <IconButton icon={Download} label="Download" />
+              <IconButton icon={Pencil} label="Edit" />
               <IconButton
                 icon={Maximize2}
                 label="Expand to full width"
@@ -247,7 +208,9 @@ function ExpandedDocument({
         <div className="flex items-center gap-1.5">
           <PublishButton state={state} />
           <div className="flex items-center gap-0.5">
-            <MoreMenu />
+            <IconButton icon={Copy} label="Copy" />
+            <IconButton icon={Download} label="Download" />
+            <IconButton icon={Pencil} label="Edit" />
             <IconButton
               icon={Minimize2}
               label="Collapse to side panel"

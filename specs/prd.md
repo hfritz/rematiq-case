@@ -5,7 +5,7 @@
 
 ## Problem Statement
 
-In a regulated MedTech environment, an AI-generated answer or document cannot be trusted or used for compliance work unless every claim is traceable to the exact source it came from. Today, a generated summary that states a requirement — for example, that a pharmacovigilance request "must be submitted in Spanish and in electronic format" — is unusable for an audit until the reader manually hunts through long regulatory PDFs to confirm where it came from. The output also evolves through several AI edits with no visible history and no way to roll back. In short: an answer you can't trace is an answer you can't use, and a document you can't version is a document you can't defend.
+**In a regulated MedTech environment, an AI-generated answer or document cannot be trusted or used for compliance work unless every claim is traceable to the exact source it came from**. Today, a generated summary that states a requirement — for example, that a pharmacovigilance request "must be submitted in Spanish and in electronic format" — is unusable for an audit until the reader manually hunts through long regulatory PDFs to confirm where it came from. The output also evolves through several AI edits with no visible history and no way to roll back. In short: an answer you can't trace is an answer you can't use, and a document you can't version is a document you can't defend.
 
 ## Customer Value
 
@@ -24,8 +24,6 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 **Broken citations.** If a cited content unit is later deleted from its source — for example, the source document is re-uploaded and that paragraph is removed — the citation is rendered as a **broken (red) link** wherever it appears, with a strikethrough and an "unlink" marker. Opening it shows a red "Link broken / content unit deleted" mini-component explaining when and why the paragraph was removed, and the full-document view shows the deleted unit as a red, struck-through tombstone. The system never silently shows a dead citation: a claim whose grounding has disappeared is always visibly flagged so it can be reviewed or re-grounded before the document is published.
 
 **Epic 2 — Versioning.** The generated document in the right panel carries its own v1/v2/v3 history, mirroring how it was built in the chat (create → extend with summary + takeaways → add breakdown). A version-indicator badge in the document header opens a history popover that lets the user preview any version and restore it as current, with a restore banner shown while a non-current version is in view. **Draft / Publish:** a document stays in **Draft** state and is only treated as final when the user manually clicks a **Publish** button in the document header, which marks it **Published**. Publishing is always an explicit human action — nothing is published automatically. Restoring an earlier version changes the document's content and therefore returns it to Draft until it is published again, keeping the published state honest about what was actually approved.
-
-**Epic 3 — Full-screen document view.** An expand action in the document header opens the generated document at full screen width with a comfortable reading column, while keeping citations, the A/B toggle, the version indicator, and the restore banner fully functional. Collapse, close, or Esc returns to the side panel.
 
 ## User Stories
 
@@ -52,23 +50,18 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 ## Assumptions
 
 - [High] Paragraph-level content units are the right granularity for traceability and audit.
-- [High] Matching Rematiq's existing UI closely enough makes the demo land as "you understood our product."
-- [Medium] A scripted COFEPRIS flow is representative enough to carry the conversation and showcase citations naturally.
 - [Medium] Teams want rollback on the generated document, not just visibility into its history.
 
 ## Risks
 
-- [High] If the UI doesn't match the real product closely enough, the demo loses credibility — mitigated by reverse-engineering tokens from screenshots into the UI spec.
-- [Medium] Expectation of a dedicated content-unit view that isn't built yet — mitigated by an explicit stub and "coming next" affordance.
-- [Low] Live demo failure — mitigated by no live dependencies and fully scripted data.
+- Low perceived value => Low usage of the document creation flow
+- Not covering the right use case
 
 ## Implementation Decisions
 
 - Link to content unit and not to document (feasibility question answered)
 - Version the generated document in the panel (single level); do not surface source-document version history inside citations, to avoid conflating two version concepts.
-- Share version state between the side panel and the full-screen view so they stay in sync.
-- Make "restore" set the chosen version as current in-session (no persistence), as a believable prototype interaction.
-- Stub the dedicated content-unit deep view with a disabled control, pending a reference screenshot.
+- 
 
 ## Success Metrics
 
@@ -81,6 +74,4 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 ## Open questions
 
 - Which other use cases do we have?
-
-
 
