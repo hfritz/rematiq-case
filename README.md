@@ -8,6 +8,7 @@ In regulated MedTech, AI answers can't be trusted without traceability — there
 
 ## Specs
 
+- [PRD — Citation & Versioning (as-built)](specs/prd.md)
 - [Product Spec](specs/product-spec.md)
 - [Technical Spec](specs/technical-spec.md)
 - [UI Spec](specs/ui-spec.md)
