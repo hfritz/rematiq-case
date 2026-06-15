@@ -418,7 +418,25 @@ export const CHAT_THREAD: ChatMessage[] = [
       {
         type: "p",
         content: [
-          { type: "text", text: "Both documents explain COFEPRIS requirements for requesting a Farmacovigilancia Report (IFV) from the Centro Nacional de Farmacovigilancia (CNFV) as part of renewing a Mexican sanitary registration for medicines or vaccines. The earlier Lineamientos sets the regulatory basis, purpose, submission timing, and core contents of the request, while the newer Guía is a more detailed and updated instruction document aligned to NOM-220-SSA1-2016 and its modifications." },
+          { type: "text", text: "Both documents explain COFEPRIS requirements for requesting a Farmacovigilancia Report (IFV) from the Centro Nacional de Farmacovigilancia (CNFV) as part of " },
+          {
+            type: "claim",
+            text: "renewing a Mexican sanitary registration for medicines or vaccines",
+            citationId: "c1",
+          },
+          { type: "text", text: ". The earlier Lineamientos sets the regulatory basis, purpose, submission timing, and core contents of the request, while the newer Guía is a more detailed and updated instruction document " },
+          {
+            type: "claim",
+            text: "aligned to NOM-220-SSA1-2016 and its modifications",
+            citationId: "c2",
+          },
+          { type: "text", text: ". It also specifies that the request must be " },
+          {
+            type: "claim",
+            text: "submitted in Spanish and in electronic format",
+            citationId: "c5",
+          },
+          { type: "text", text: "." },
         ],
       },
     ],

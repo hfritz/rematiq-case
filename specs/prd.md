@@ -19,7 +19,7 @@ Rematiq's position is a trustworthy AI research tool for regulated MedTech, not 
 
 A frontend-only clickable prototype that mirrors Rematiq's existing product UI (reverse-engineered from screenshots) and is scripted around a real COFEPRIS pharmacovigilance conversation. It delivers three epics.
 
-**Epic 1 — Citation linking.** Every AI-generated claim and quote in the generated document carries an inline citation that binds it to a specific content unit (paragraph) in a source document. Two A/B trigger variants are toggleable live for design feedback: Variant A highlights the claim text with a superscript marker; Variant B appends an inline source chip. Clicking a citation opens a mini-component showing the cited content unit (highlighted, with locator), an internal-vs-external indicator, and a primary action — "Open full document" for internal sources (which scrolls to and flashes the cited unit in context) or "Open source ↗" for external legislation.
+**Epic 1 — Citation linking.** Every AI-generated claim and quote — in both the chat answer and the generated document — carries an inline citation that binds it to a specific content unit (paragraph) in a source document. Two A/B trigger variants are toggleable live for design feedback: Variant A highlights the claim text with a superscript marker; Variant B appends an inline source chip. Clicking a citation opens a mini-component showing the cited content unit (highlighted, with locator), an internal-vs-external indicator, and a primary action — "Open full document" for internal sources (which scrolls to and flashes the cited unit in context) or "Open source ↗" for external legislation. The same citation component is reused in the chat thread and the document, so grounding is consistent everywhere a claim appears.
 
 **Epic 2 — Versioning.** The generated document in the right panel carries its own v1/v2/v3 history, mirroring how it was built in the chat (create → extend with summary + takeaways → add breakdown). A version-indicator badge in the document header opens a history popover that lets the user preview any version and restore it as current, with a restore banner shown while a non-current version is in view.
 
@@ -29,21 +29,23 @@ A frontend-only clickable prototype that mirrors Rematiq's existing product UI (
 
 *Epic 1 — Citation linking*
 
-- As a regulatory reviewer, I want to click a claim in the AI document and see the exact source paragraph, so that I can verify it without searching the original PDF.
-- As an auditor, I want each claim to show a precise locator (e.g. §3.4), so that I can record where evidence came from.
-- As a reviewer, I want grounded claims to look visually distinct from the model's framing, so that I can calibrate how much to trust each statement.
-- As a reviewer, I want a claim sourced from a law to link out to the official legislation, so that I can read the primary text.
-- As a designer, I want to compare two citation treatments side by side, so that I can choose the clearest pattern.
+- As a user, I want to click a claim in the AI document and see the exact source paragraph, so that I can verify it without searching the original PDF.
+- As a user, I want claims in the chat answer to be cited too, so that I can verify the AI's response inline before it ever becomes a document.
+- As a user I want each claim to show a precise locator (e.g. §3.4), so that I can record where evidence came from.
+- As a user, I want grounded claims to look visually distinct from the model's framing, so that I can calibrate how much to trust each statement.
+- As a user, I want a claim sourced from a law to link out to the official legislation, so that I can read the primary text.
 
 *Epic 2 — Versioning*
 
-- As a document owner, I want to see how the AI document evolved across versions, so that I can understand what changed and when.
-- As a document owner, I want to restore an earlier version of the generated document, so that I can roll back an unwanted change.
+- As a user, I want to see how the AI document evolved across versions, so that I can understand what changed and when.
+- As a user, I want to restore an earlier version of the generated document, so that I can roll back an unwanted change.
 
-*Epic 3 — Full-screen view*
 
-- As a reviewer, I want to expand the generated document to full width, so that I can review it comfortably for sign-off.
-- As a reviewer, I want citations and versioning to keep working in the expanded view, so that I don't lose capability when reading at full size.
+
+*Other — Full-screen view*
+
+- As a user, I want to expand the generated document to full width, so that I can review it comfortably for sign-off.
+- As a user, I want citations and versioning to keep working in the expanded view, so that I don't lose capability when reading at full size.
 
 ## Assumptions
 

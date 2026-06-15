@@ -54,7 +54,7 @@ When I am reviewing an AI-generated claim in a regulated MedTech document, I wan
 
 ## User Experience
 
-The prototype reproduces Rematiq's three-panel research interface: an icon rail, a chat list, the chat thread, and a document editor panel. The hero interaction lives in the generated document: sourced claims and quotes carry inline citations. Activating a citation opens the mini-component, which highlights the cited content unit in its source, distinguishes internal vs external sources, and offers expansion to a mini-preview or full-document view. A secondary Documentation list view (matching the real product) provides surrounding context.
+The prototype reproduces Rematiq's three-panel research interface: an icon rail, a chat list, the chat thread, and a document editor panel. Sourced claims and quotes carry inline citations in both the chat answer and the generated document — the same citation component is reused in both places. Activating a citation opens the mini-component, which highlights the cited content unit in its source, distinguishes internal vs external sources, and offers expansion to a mini-preview or full-document view. A secondary Documentation list view (matching the real product) provides surrounding context.
 
 ### Citation trigger — A/B variants
 
