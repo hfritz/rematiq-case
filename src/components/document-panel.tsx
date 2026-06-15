@@ -24,8 +24,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { GENERATED_DOC } from "@/lib/mock-data";
+import type { Block } from "@/lib/types";
 import { RichContent } from "./rich-content";
 import { VariantToggle } from "./variant-toggle";
+import {
+  VersionMenu,
+  RestoreBanner,
+  type VersionState,
+} from "./doc-version-control";
 
 const TOOLBAR_GROUPS: { icon: LucideIcon; active?: boolean }[][] = [
   [{ icon: Undo2 }, { icon: Redo2 }],
@@ -78,8 +84,35 @@ function FormattingToolbar() {
   );
 }
 
+function useDocVersions(): {
+  state: VersionState;
+  blocks: Block[];
+} {
+  const versions = GENERATED_DOC.versions;
+  const initial =
+    versions.find((v) => v.isCurrent)?.id ?? versions[versions.length - 1].id;
+  const [currentId, setCurrentId] = useState(initial);
+  const [viewingId, setViewingId] = useState(initial);
+
+  const blocks =
+    versions.find((v) => v.id === viewingId)?.blocks ?? versions[0].blocks;
+
+  const state: VersionState = {
+    versions,
+    viewingId,
+    currentId,
+    view: setViewingId,
+    restore: (id) => {
+      setCurrentId(id);
+      setViewingId(id);
+    },
+  };
+  return { state, blocks };
+}
+
 export function DocumentPanel() {
   const [expanded, setExpanded] = useState(false);
+  const { state, blocks } = useDocVersions();
 
   return (
     <>
@@ -90,6 +123,7 @@ export function DocumentPanel() {
             <span className="truncate rounded-md bg-surface px-2 py-1 text-[13px] font-medium text-foreground">
               {GENERATED_DOC.title.slice(0, 22)}…
             </span>
+            <VersionMenu state={state} />
           </div>
           <div className="flex items-center gap-0.5">
             <IconButton icon={Copy} label="Copy" />
@@ -111,18 +145,34 @@ export function DocumentPanel() {
           <VariantToggle />
         </div>
 
+        <RestoreBanner state={state} />
+
         {/* Document body */}
         <div className="flex-1 overflow-y-auto px-6 py-6">
-          <RichContent blocks={GENERATED_DOC.blocks} variant="document" />
+          <RichContent blocks={blocks} variant="document" />
         </div>
       </section>
 
-      {expanded ? <ExpandedDocument onCollapse={() => setExpanded(false)} /> : null}
+      {expanded ? (
+        <ExpandedDocument
+          state={state}
+          blocks={blocks}
+          onCollapse={() => setExpanded(false)}
+        />
+      ) : null}
     </>
   );
 }
 
-function ExpandedDocument({ onCollapse }: { onCollapse: () => void }) {
+function ExpandedDocument({
+  state,
+  blocks,
+  onCollapse,
+}: {
+  state: VersionState;
+  blocks: Block[];
+  onCollapse: () => void;
+}) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onCollapse();
@@ -140,6 +190,7 @@ function ExpandedDocument({ onCollapse }: { onCollapse: () => void }) {
           <span className="truncate text-[15px] font-semibold text-foreground">
             {GENERATED_DOC.title}
           </span>
+          <VersionMenu state={state} />
         </div>
         <div className="flex items-center gap-0.5">
           <IconButton icon={Copy} label="Copy" />
@@ -159,10 +210,12 @@ function ExpandedDocument({ onCollapse }: { onCollapse: () => void }) {
         <VariantToggle />
       </div>
 
+      <RestoreBanner state={state} />
+
       {/* Document body — full screen width, comfortable reading column */}
       <div className="flex-1 overflow-y-auto px-8 py-10">
         <div className="mx-auto max-w-4xl">
-          <RichContent blocks={GENERATED_DOC.blocks} variant="document" />
+          <RichContent blocks={blocks} variant="document" />
         </div>
       </div>
     </div>

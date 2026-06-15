@@ -1,4 +1,5 @@
 import type {
+  Block,
   ChatMessage,
   ChatSummary,
   Citation,
@@ -195,13 +196,34 @@ export const CITATION_LIST = Object.values(CITATIONS);
 // the citation mini-components live.
 // ---------------------------------------------------------------------------
 
-export const GENERATED_DOC: GeneratedDocument = {
-  id: "summary-cofepris",
-  title: "Summary of Spanish COFEPRIS Pharmacovigilance Documents",
-  blocks: [
-    { type: "h1", text: "Summary of Spanish COFEPRIS Pharmacovigilance Documents" },
+const DOC_TITLE = "Summary of Spanish COFEPRIS Pharmacovigilance Documents";
 
-    { type: "h2", text: "Executive Summary" },
+/** v1 — initial document, just the combined summary paragraph. */
+const DOC_V1_BLOCKS: Block[] = [
+  { type: "h1", text: DOC_TITLE },
+  {
+    type: "p",
+    content: [
+      { type: "text", text: "Both documents explain COFEPRIS requirements for requesting a Farmacovigilancia Report (IFV) from the Centro Nacional de Farmacovigilancia (CNFV) as part of " },
+      {
+        type: "claim",
+        text: "renewing a Mexican sanitary registration for medicines or vaccines",
+        citationId: "c1",
+      },
+      { type: "text", text: ". The earlier Lineamientos sets the regulatory basis, purpose, and core contents of the request, while the newer Guía is more detailed and " },
+      {
+        type: "claim",
+        text: "aligned to NOM-220-SSA1-2016 and its modifications",
+        citationId: "c2",
+      },
+      { type: "text", text: "." },
+    ],
+  },
+];
+
+/** Executive summary + main takeaways sections (added in v2). */
+const DOC_SUMMARY_SECTIONS: Block[] = [
+  { type: "h2", text: "Executive Summary" },
     {
       type: "p",
       content: [
@@ -261,6 +283,10 @@ export const GENERATED_DOC: GeneratedDocument = {
       ],
     },
 
+];
+
+/** Per-document breakdown (added in v3, the current version). */
+const DOC_BREAKDOWN_SECTIONS: Block[] = [
     { type: "hr" },
 
     { type: "h2", text: "Breakdown by Document" },
@@ -310,6 +336,40 @@ export const GENERATED_DOC: GeneratedDocument = {
           citationId: "c8",
         },
         { type: "text", text: " within the dossier." },
+      ],
+    },
+];
+
+export const GENERATED_DOC: GeneratedDocument = {
+  id: "summary-cofepris",
+  title: DOC_TITLE,
+  versions: [
+    {
+      id: "doc-v1",
+      label: "v1",
+      date: "15 Jun 2026, 09:42",
+      isCurrent: false,
+      changeNote: "Initial document created from the combined summary.",
+      blocks: DOC_V1_BLOCKS,
+    },
+    {
+      id: "doc-v2",
+      label: "v2",
+      date: "15 Jun 2026, 09:55",
+      isCurrent: false,
+      changeNote: "Added an executive summary and main takeaways.",
+      blocks: [{ type: "h1", text: DOC_TITLE }, ...DOC_SUMMARY_SECTIONS],
+    },
+    {
+      id: "doc-v3",
+      label: "v3",
+      date: "15 Jun 2026, 10:01",
+      isCurrent: true,
+      changeNote: "Added a per-document breakdown with cited quotes.",
+      blocks: [
+        { type: "h1", text: DOC_TITLE },
+        ...DOC_SUMMARY_SECTIONS,
+        ...DOC_BREAKDOWN_SECTIONS,
       ],
     },
   ],

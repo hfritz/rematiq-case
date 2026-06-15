@@ -73,10 +73,22 @@ export type ChatSummary = {
   active?: boolean;
 };
 
+/** One saved version of the generated document (right panel). */
+export type GeneratedDocVersion = {
+  id: string;
+  /** Display label, e.g. "v1". */
+  label: string;
+  date: string;
+  isCurrent: boolean;
+  /** What changed in this version — shown in the version history. */
+  changeNote: string;
+  blocks: Block[];
+};
+
 export type GeneratedDocument = {
   id: string;
   title: string;
-  blocks: Block[];
+  versions: GeneratedDocVersion[];
 };
 
 export type DocListRow = {
