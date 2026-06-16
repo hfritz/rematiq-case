@@ -124,29 +124,31 @@ export function DocumentPanel() {
   return (
     <>
       <section className="flex h-full w-[540px] shrink-0 flex-col border-l border-border bg-background">
-        {/* Header */}
+        {/* Header — title + document actions */}
         <div className="flex items-center justify-between border-b border-border px-4 py-3">
+          <span className="min-w-0 truncate rounded-md bg-surface px-2 py-1 text-[13px] font-medium text-foreground">
+            {GENERATED_DOC.title.slice(0, 22)}…
+          </span>
+          <div className="flex items-center gap-0.5">
+            <IconButton icon={Copy} label="Copy" />
+            <IconButton icon={Download} label="Download" />
+            <IconButton icon={Pencil} label="Edit" />
+            <IconButton
+              icon={Maximize2}
+              label="Expand to full width"
+              onClick={() => setExpanded(true)}
+            />
+            <IconButton icon={X} label="Close" />
+          </div>
+        </div>
+
+        {/* Version, status & publish */}
+        <div className="flex items-center justify-between border-b border-border px-4 py-2">
           <div className="flex min-w-0 items-center gap-2">
-            <span className="truncate rounded-md bg-surface px-2 py-1 text-[13px] font-medium text-foreground">
-              {GENERATED_DOC.title.slice(0, 22)}…
-            </span>
             <VersionMenu state={state} />
             <DocStatusBadge state={state} />
           </div>
-          <div className="flex items-center gap-1.5">
-            <PublishButton state={state} />
-            <div className="flex items-center gap-0.5">
-              <IconButton icon={Copy} label="Copy" />
-              <IconButton icon={Download} label="Download" />
-              <IconButton icon={Pencil} label="Edit" />
-              <IconButton
-                icon={Maximize2}
-                label="Expand to full width"
-                onClick={() => setExpanded(true)}
-              />
-              <IconButton icon={X} label="Close" />
-            </div>
-          </div>
+          <PublishButton state={state} />
         </div>
 
         <FormattingToolbar />
@@ -190,29 +192,31 @@ function ExpandedDocument({
   return (
     // z-40 keeps citation popovers/dialogs (z-50, portalled) layered above this.
     <div className="fixed inset-0 z-40 flex flex-col bg-background">
-      {/* Header */}
+      {/* Header — title + document actions */}
       <div className="flex items-center justify-between border-b border-border px-6 py-3">
+        <span className="min-w-0 truncate text-[15px] font-semibold text-foreground">
+          {GENERATED_DOC.title}
+        </span>
+        <div className="flex items-center gap-0.5">
+          <IconButton icon={Copy} label="Copy" />
+          <IconButton icon={Download} label="Download" />
+          <IconButton icon={Pencil} label="Edit" />
+          <IconButton
+            icon={Minimize2}
+            label="Collapse to side panel"
+            onClick={onCollapse}
+          />
+          <IconButton icon={X} label="Close" onClick={onCollapse} />
+        </div>
+      </div>
+
+      {/* Version, status & publish */}
+      <div className="flex items-center justify-between border-b border-border px-6 py-2">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-[15px] font-semibold text-foreground">
-            {GENERATED_DOC.title}
-          </span>
           <VersionMenu state={state} />
           <DocStatusBadge state={state} />
         </div>
-        <div className="flex items-center gap-1.5">
-          <PublishButton state={state} />
-          <div className="flex items-center gap-0.5">
-            <IconButton icon={Copy} label="Copy" />
-            <IconButton icon={Download} label="Download" />
-            <IconButton icon={Pencil} label="Edit" />
-            <IconButton
-              icon={Minimize2}
-              label="Collapse to side panel"
-              onClick={onCollapse}
-            />
-            <IconButton icon={X} label="Close" onClick={onCollapse} />
-          </div>
-        </div>
+        <PublishButton state={state} />
       </div>
 
       <RestoreBanner state={state} />
