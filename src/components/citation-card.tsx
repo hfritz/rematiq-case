@@ -82,7 +82,7 @@ export function CitationCard({ citationId }: { citationId: string }) {
               <span>{contentUnit.deletedNote}</span>
             </p>
           </div>
-          <p className="mt-1.5 text-[11px] leading-snug text-text-muted">
+          <p className="mt-1.5 py-1.5 text-[11px] leading-snug text-text-muted">
             This claim can no longer be traced to live source content. Review the
             claim or re-ground it before publishing.
           </p>
