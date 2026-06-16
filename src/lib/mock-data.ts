@@ -30,23 +30,23 @@ export const SOURCE_DOCS: SourceDocument[] = [
         contentUnits: [
           {
             id: "lin-cu-1",
-            locator: "§1.2",
+            locator: "CU-493",
             text: "La prórroga del registro sanitario de medicamentos y vacunas está sujeta al cumplimiento de obligaciones de farmacovigilancia, incluyendo la solicitud del Informe de Farmacovigilancia (IFV) ante el Centro Nacional de Farmacovigilancia (CNFV).",
           },
           {
             id: "lin-cu-2",
-            locator: "§2.1",
+            locator: "CU-692",
             isQuote: true,
             text: "El titular de registro sanitario o su representante legal que pretenda prorrogar en México, deberán elaborar y someter un escrito libre para solicitar el Informe de farmacovigilancia para todos los medicamentos y vacunas que cuenten con un registro sanitario u oficio de reconocimiento.",
           },
           {
             id: "lin-cu-3",
-            locator: "§2.4",
+            locator: "CU-33",
             text: "La solicitud se realiza por cada registro sanitario y debe cubrir todas las presentaciones y concentraciones amparadas por dicho registro, acompañada de los anexos correspondientes.",
           },
           {
             id: "lin-cu-deleted",
-            locator: "§2.3",
+            locator: "CU-127",
             text: "El escrito libre deberá presentarse dentro de los plazos establecidos para la prórroga del registro sanitario correspondiente.",
             deleted: true,
             deletedNote:

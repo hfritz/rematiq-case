@@ -1,27 +1,14 @@
 "use client";
 
-import {
-  FileText,
-  ExternalLink,
-  Maximize2,
-  ScanText,
-  Unlink,
-} from "lucide-react";
+import { FileText, ExternalLink, ScanText, Unlink } from "lucide-react";
 import { resolveCitation } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
-import { useAppState } from "./app-state";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export function CitationCard({ citationId }: { citationId: string }) {
   const resolved = resolveCitation(citationId);
-  const { openFullDoc } = useAppState();
 
   if (!resolved) return null;
-  const { citation, source, version, contentUnit } = resolved;
+  const { citation, source, contentUnit } = resolved;
   const isExternal = source.kind === "external";
   const isBroken = !!contentUnit?.deleted;
 
@@ -139,31 +126,14 @@ export function CitationCard({ citationId }: { citationId: string }) {
             Open source
           </a>
         ) : (
-          <button
-            onClick={() =>
-              openFullDoc({
-                sourceId: source.id,
-                versionId: version!.id,
-                contentUnitId: citation.contentUnitId,
-              })
-            }
-            className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover"
+          <button className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover"
           >
-            <Maximize2 className="h-3.5 w-3.5" strokeWidth={2} />
-            Open full document
+            <ScanText className="h-3.5 w-3.5" strokeWidth={2} />
+            See artifact
           </button>
         )}
 
-        <Tooltip>
-          <TooltipTrigger
-            disabled
-            className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-[12px] font-medium text-text-muted"
-          >
-            <ScanText className="h-3.5 w-3.5" strokeWidth={1.75} />
-            Content-unit view
-          </TooltipTrigger>
-          <TooltipContent>Dedicated content-unit view — coming next</TooltipContent>
-        </Tooltip>
+        
       </div>
     </div>
   );
