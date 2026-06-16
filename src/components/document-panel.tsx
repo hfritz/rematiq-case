@@ -26,7 +26,6 @@ import {
 import { GENERATED_DOC } from "@/lib/mock-data";
 import type { Block } from "@/lib/types";
 import { RichContent } from "./rich-content";
-import { VariantToggle } from "./variant-toggle";
 import {
   VersionMenu,
   RestoreBanner,
@@ -152,11 +151,6 @@ export function DocumentPanel() {
 
         <FormattingToolbar />
 
-        {/* Demo control: A/B citation style */}
-        <div className="flex items-center justify-between border-b border-border bg-bg-subtle px-4 py-2">
-          <VariantToggle />
-        </div>
-
         <RestoreBanner state={state} />
 
         {/* Document body */}
@@ -219,11 +213,6 @@ function ExpandedDocument({
             <IconButton icon={X} label="Close" onClick={onCollapse} />
           </div>
         </div>
-      </div>
-
-      {/* Demo control: A/B citation style */}
-      <div className="flex items-center justify-between border-b border-border bg-bg-subtle px-6 py-2">
-        <VariantToggle />
       </div>
 
       <RestoreBanner state={state} />

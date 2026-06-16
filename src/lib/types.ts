@@ -105,6 +105,3 @@ export type DocListRow = {
   uploadedBy: string;
   uploadedAt: string;
 };
-
-/** A/B variants of the citation trigger, for design feedback. */
-export type CitationVariant = "highlight" | "chip";

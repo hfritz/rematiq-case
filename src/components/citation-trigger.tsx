@@ -9,16 +9,9 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { resolveCitation } from "@/lib/mock-data";
-import { useAppState } from "./app-state";
 import { CitationCard } from "./citation-card";
 
 type Tone = "internal" | "external" | "broken";
-
-const MARKER_TONE: Record<Tone, string> = {
-  internal: "bg-brand-tint text-brand hover:bg-brand hover:text-white",
-  external: "bg-external-tint text-external hover:bg-external hover:text-white",
-  broken: "bg-red-100 text-red-600 hover:bg-red-600 hover:text-white",
-};
 
 const CHIP_TONE: Record<Tone, string> = {
   internal: "bg-brand-tint text-brand-text hover:bg-brand hover:text-white",
@@ -26,26 +19,16 @@ const CHIP_TONE: Record<Tone, string> = {
   broken: "bg-red-100 text-red-600 hover:bg-red-600 hover:text-white",
 };
 
-const HIGHLIGHT_TONE: Record<Tone, string> = {
-  internal:
-    "bg-brand-tint/60 text-foreground underline decoration-brand/40 hover:bg-brand-tint",
-  external:
-    "bg-external-tint/60 text-foreground underline decoration-external/40 hover:bg-external-tint",
-  broken:
-    "bg-red-50 text-red-700 underline line-through decoration-red-400 hover:bg-red-100",
-};
-
 export function CitationTrigger({
   citationId,
   children,
-  /** Render just the numeric marker (used after block quotes). */
+  /** Render just the source chip (used after block quotes). */
   markerOnly = false,
 }: {
   citationId: string;
   children?: ReactNode;
   markerOnly?: boolean;
 }) {
-  const { variant } = useAppState();
   const resolved = resolveCitation(citationId);
   if (!resolved) return <>{children}</>;
 
@@ -57,17 +40,6 @@ export function CitationTrigger({
       ? "external"
       : "internal";
   const n = citation.number;
-
-  const marker = (
-    <sup
-      className={cn(
-        "ml-0.5 cursor-pointer rounded px-[3px] text-[10px] font-semibold tabular-nums transition-colors",
-        MARKER_TONE[tone],
-      )}
-    >
-      {n}
-    </sup>
-  );
 
   const chip = (
     <span
@@ -85,31 +57,15 @@ export function CitationTrigger({
     </span>
   );
 
-  let triggerInner: ReactNode;
-  if (markerOnly) {
-    triggerInner = variant === "chip" ? chip : marker;
-  } else if (variant === "highlight") {
-    // Variant A — highlighted claim text bound to a superscript marker.
-    triggerInner = (
-      <span
-        className={cn(
-          "cursor-pointer rounded-sm decoration-2 underline-offset-2 transition-colors",
-          HIGHLIGHT_TONE[tone],
-        )}
-      >
-        {children}
-        {marker}
-      </span>
-    );
-  } else {
-    // Variant B — plain claim text followed by an inline source chip.
-    triggerInner = (
-      <span className={isBroken ? "text-red-700" : "text-foreground"}>
-        {children}
-        {chip}
-      </span>
-    );
-  }
+  // Plain claim text followed by an inline source chip.
+  const triggerInner: ReactNode = markerOnly ? (
+    chip
+  ) : (
+    <span className={isBroken ? "text-red-700" : "text-foreground"}>
+      {children}
+      {chip}
+    </span>
+  );
 
   return (
     <Popover>

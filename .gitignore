@@ -22,3 +22,6 @@ docs/global-instructions.md
 next-env.d.ts
 .pnp
 .pnp.*
+
+# Codex agent definitions (local)
+.codex/
