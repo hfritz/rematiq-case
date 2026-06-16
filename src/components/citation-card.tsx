@@ -113,28 +113,27 @@ export function CitationCard({ citationId }: { citationId: string }) {
         </div>
       )}
 
-      {/* Actions */}
-      <div className="mt-3 flex items-center gap-2 border-t border-border px-3.5 py-2.5">
-        {isExternal ? (
-          <a
-            href={source.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover"
-          >
-            <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
-            Open source
-          </a>
-        ) : (
-          <button className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover"
-          >
-            <ScanText className="h-3.5 w-3.5" strokeWidth={2} />
-            See artifact
-          </button>
-        )}
-
-        
-      </div>
+      {/* Actions — a deleted content unit has no artifact to open. */}
+      {isExternal || !isBroken ? (
+        <div className="mt-3 flex items-center gap-2 border-t border-border px-3.5 py-2.5">
+          {isExternal ? (
+            <a
+              href={source.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover"
+            >
+              <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
+              Open source
+            </a>
+          ) : (
+            <button className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-2.5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-brand-hover">
+              <ScanText className="h-3.5 w-3.5" strokeWidth={2} />
+              See artifact
+            </button>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
