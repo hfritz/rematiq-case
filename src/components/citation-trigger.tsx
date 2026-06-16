@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { Unlink } from "lucide-react";
 import {
   Popover,
@@ -19,18 +18,10 @@ const CHIP_TONE: Record<Tone, string> = {
   broken: "bg-red-100 text-red-600 hover:bg-red-600 hover:text-white",
 };
 
-export function CitationTrigger({
-  citationId,
-  children,
-  /** Render just the source chip (used after block quotes). */
-  markerOnly = false,
-}: {
-  citationId: string;
-  children?: ReactNode;
-  markerOnly?: boolean;
-}) {
+/** An inline source chip. Citations render only as chips, at the end of a block. */
+export function CitationTrigger({ citationId }: { citationId: string }) {
   const resolved = resolveCitation(citationId);
-  if (!resolved) return <>{children}</>;
+  if (!resolved) return null;
 
   const { citation, source, contentUnit } = resolved;
   const isBroken = !!contentUnit?.deleted;
@@ -41,36 +32,22 @@ export function CitationTrigger({
       : "internal";
   const n = citation.number;
 
-  const chip = (
-    <span
-      className={cn(
-        "ml-1 inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-0.5 align-baseline text-[11px] font-medium leading-none transition-colors",
-        CHIP_TONE[tone],
-      )}
-    >
-      {isBroken ? (
-        <Unlink className="h-2.5 w-2.5" strokeWidth={2.25} />
-      ) : (
-        <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
-      )}
-      {source.title.split(" ").slice(0, 2).join(" ")}… [{n}]
-    </span>
-  );
-
-  // Plain claim text followed by an inline source chip.
-  const triggerInner: ReactNode = markerOnly ? (
-    chip
-  ) : (
-    <span className={isBroken ? "text-red-700" : "text-foreground"}>
-      {children}
-      {chip}
-    </span>
-  );
-
   return (
     <Popover>
       <PopoverTrigger className="inline text-left align-baseline">
-        {triggerInner}
+        <span
+          className={cn(
+            "ml-1 inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-0.5 align-baseline text-[11px] font-medium leading-none transition-colors",
+            CHIP_TONE[tone],
+          )}
+        >
+          {isBroken ? (
+            <Unlink className="h-2.5 w-2.5" strokeWidth={2.25} />
+          ) : (
+            <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
+          )}
+          {source.title.split(" ").slice(0, 2).join(" ")}… [{n}]
+        </span>
       </PopoverTrigger>
       <PopoverContent
         align="start"

@@ -300,6 +300,19 @@ const DOC_SUMMARY_SECTIONS: Block[] = [
       ],
     },
 
+    {
+      type: "p",
+      content: [
+        { type: "text", text: "Taken together, the two documents describe a single submission pathway: the request is " },
+        {
+          type: "claims",
+          text: "filed with the CNFV through the CIS, made per sanitary registration covering all presentations, and accompanied by its annexes in PDF form",
+          citationIds: ["c3", "c4", "c8"],
+        },
+        { type: "text", text: ". This synthesis is drawn from three separate content units across both sources rather than quoted from any single paragraph." },
+      ],
+    },
+
 ];
 
 /** Per-document breakdown (added in v3, the current version). */

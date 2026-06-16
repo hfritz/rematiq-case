@@ -5,8 +5,14 @@
 export type Inline =
   | { type: "text"; text: string }
   | { type: "bold"; text: string }
-  /** A sourced claim that carries a citation. */
-  | { type: "claim"; text: string; citationId: string };
+  /** A sourced claim that carries a single citation (e.g. a 1:1 quote). */
+  | { type: "claim"; text: string; citationId: string }
+  /**
+   * Synthesized text grounded in more than one source. Generated (non-quote)
+   * statements often draw from several content units, so they carry multiple
+   * citations rendered as a row of chips after the text.
+   */
+  | { type: "claims"; text: string; citationIds: string[] };
 
 /** A block of rich content (used for generated docs and agent chat messages). */
 export type Block =
