@@ -32,7 +32,7 @@ function renderInlines(nodes: Inline[]): {
       push(node.citationId);
       const broken = !!resolveCitation(node.citationId)?.contentUnit?.deleted;
       return (
-        <span key={i} className={broken ? "text-red-700" : "text-foreground"}>
+        <span key={i} className={broken ? "" : "text-foreground"}>
           {node.text}
         </span>
       );

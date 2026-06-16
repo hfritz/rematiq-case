@@ -73,7 +73,7 @@ export const SOURCE_DOCS: SourceDocument[] = [
         contentUnits: [
           {
             id: "guia-v1-cu-2",
-            locator: "§3.1",
+            locator: "CU-345",
             text: "La solicitud del informe de farmacovigilancia deberá presentarse por escrito ante el CNFV.",
           },
         ],
@@ -93,13 +93,13 @@ export const SOURCE_DOCS: SourceDocument[] = [
           },
           {
             id: "guia-v2-cu-2",
-            locator: "§3.4",
+            locator: "CU-1282",
             isQuote: true,
             text: "La solicitud del informe de farmacovigilancia deberá someterse en idioma español y en formato electrónico (USB/CD).",
           },
           {
             id: "guia-v2-cu-3",
-            locator: "§4.2",
+            locator: "CU-122",
             text: "Los anexos deberán entregarse en formato PDF, incluyendo el registro vigente y la información para prescribir. En caso de cambios de titularidad o número de registro, deberán documentarse y justificarse dentro del expediente.",
           },
         ],
