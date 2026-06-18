@@ -1,0 +1,74 @@
+{
+  "team": "HFR",
+  "theme": "Citations",
+  "epic": {
+    "name": "Citations in chat answers",
+    "description": "Inline citations appear on every AI response in the chat thread, binding each claim to the exact source artifact it came from. The reviewer can verify the AI's answer in the moment — before it ever becomes a document — and distinguish grounded claims from model framing at a glance."
+  },
+  "milestones": [
+    {
+      "name": "Chat basics",
+      "issues": [
+        {
+          "title": "Inline citation on direct quotes",
+          "body": "As a reviewer, I want a direct quote from a source artifact to be cited inline, so that I can see exactly where that text came from.\n\n---\n**Acceptance Criteria**\n1. A direct quote in an AI answer renders with an inline citation marker adjacent to the quoted text.\n2. The marker resolves to a specific source locator (e.g. CU-xxx), not just the parent document.\n3. Multiple quotes within a single answer are each cited independently.\n4. The quoted span is visually delimited so it reads as verbatim source text, not model prose.\n5. The citation persists with the message as the reviewer scrolls the thread.",
+          "labels": [
+            "User Story"
+          ]
+        },
+        {
+          "title": "Open source artifact from a chat citation",
+          "body": "As a reviewer, I want to click a citation in chat and see the exact source artifact it came from, so that I can confirm the AI's answer is grounded before acting on it.\n\n---\n**Acceptance Criteria**\n1. Clicking a citation opens the source artifact it points to.\n2. The exact cited content unit is scrolled into view and highlighted.\n3. The action works from any AI message in the thread.\n4. Returning to chat restores the reviewer's previous scroll position.\n5. A citation pointing at a specific paragraph resolves to that paragraph, not the document top.",
+          "labels": [
+            "User Story"
+          ]
+        },
+        {
+          "title": "Visually distinguish grounded claims from framing",
+          "body": "As a reviewer, I want grounded claims to look visually distinct from the model's framing, so that I know which parts of the answer are sourced and which are not.\n\n---\n**Acceptance Criteria**\n1. Sourced spans carry a distinct visual treatment from surrounding model framing.\n2. Non-sourced framing text uses default styling with no citation affordance.\n3. The distinction does not rely on color alone (legible for low-vision / colorblind reviewers).\n4. The treatment is consistent across every AI message in the thread.\n5. A grounded span signals it is interactive (hover/focus affordance) before it is clicked.",
+          "labels": [
+            "User Story"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chat breadth",
+      "issues": [
+        {
+          "title": "Reference citations for paraphrased claims",
+          "body": "As a reviewer, I want AI-generated text that is grounded in a source artifact to carry a reference citation, so that I know which artifact informed that claim even when it's not a direct quote.\n\n---\n**Acceptance Criteria**\n1. A paraphrased (non-verbatim) claim carries a reference-style citation.\n2. Reference citations are visually distinguishable from direct-quote citations.\n3. The reference resolves to the informing artifact / content unit.\n4. A reviewer can tell at a glance whether a claim is quoted or referenced.\n5. The reference works when a claim draws on a source without reproducing its text.",
+          "labels": [
+            "User Story"
+          ]
+        },
+        {
+          "title": "Citations link to official legislation",
+          "body": "As a reviewer, I want a citation in chat to link out to the official legislation when the source is a public standard, so that I can read the primary text directly.\n\n---\n**Acceptance Criteria**\n1. When the source is a public standard, the citation exposes a link to the official legislation.\n2. The link opens the primary external text.\n3. Citations to internal sources continue to resolve to the internal artifact.\n4. External (legislation) citations are clearly distinguished from internal ones.\n5. The external link target is identifiable before the reviewer clicks it.",
+          "labels": [
+            "User Story"
+          ]
+        },
+        {
+          "title": "Citations across all artifact types",
+          "body": "As a reviewer, I want citations to work across different artifact types — content units, requirements, assessments — so that any claim can be traced regardless of what kind of source grounded it.\n\n---\n**Acceptance Criteria**\n1. A claim grounded in a content unit cites correctly.\n2. A claim grounded in a requirement cites correctly.\n3. A claim grounded in an assessment cites correctly.\n4. The citation label/locator reflects the artifact type it points to.\n5. Clicking resolves to the correct artifact regardless of type.",
+          "labels": [
+            "User Story"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chat integrity",
+      "issues": [
+        {
+          "title": "Flag broken citations in chat",
+          "body": "As a reviewer, I want broken citations in the chat to be clearly flagged, so that I can identify and re-ground any claim whose source has disappeared before I generate a document.\n\n---\n**Acceptance Criteria**\n1. A citation whose source content unit has been deleted/removed renders in a clearly broken state.\n2. The broken state is visually distinct from a valid citation.\n3. The reviewer is given guidance to re-ground the affected claim.\n4. Interacting with a broken citation explains why it is broken (source no longer exists).\n5. Broken citations are surfaced in chat before the reviewer generates a document.",
+          "labels": [
+            "User Story"
+          ]
+        }
+      ]
+    }
+  ]
+}
